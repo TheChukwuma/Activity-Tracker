@@ -1,18 +1,17 @@
 package com.chukwuma.timemanagementapp.model;
 
 import com.chukwuma.timemanagementapp.enums.Status;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -23,10 +22,12 @@ public class Task {
     private Long task_id;
     private String title;
     private String description;
+
+    @Column(columnDefinition = " VARCHAR(255) default 'PENDING'")
     private Status status;
-    private Date createdTime;
-    private Date updateTime;
-    private Date completedTime;
+    private LocalDateTime createdTime;
+    private LocalDateTime updateTime;
+    private LocalDateTime completedTime;
 
     public Task(Long task_id, String title, String description, Status status) {
         this.task_id = task_id;
@@ -35,16 +36,33 @@ public class Task {
         this.status = status;
     }
 
-    public Task(String title, String description, Date createdTime) {
+    public Task(String title, String description) {
         this.title = title;
         this.description = description;
-        this.createdTime = createdTime;
+
     }
 
-    public Task(String title, String description, Status status, Date createdTime) {
+    public Task(String title, String description, Status status, LocalDateTime createdTime) {
         this.title = title;
         this.status = status;
         this.description = description;
         this.createdTime = createdTime;
+    }
+
+    @ManyToOne
+    @JoinColumn(name="user", referencedColumnName = "id")
+    private User user;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Task task = (Task) o;
+        return task_id != null && Objects.equals(task_id, task.task_id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

@@ -17,14 +17,16 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/save-task")
-    public String saveTask(@ModelAttribute("task") Task task){
+    @GetMapping("/save-task")
+    public String saveTask(Task task){
+        System.out.println(task);
         taskService.save(task);
+        System.out.println("hello chuks");
         return "redirect:/index";
     }
 
     @GetMapping("/select-task/{id}")
-    public String selectTaskById(@PathVariable Long id, @ModelAttribute("one-task") Model model){
+    public String selectTaskById(@PathVariable Long id, @ModelAttribute("oneTask") Model model){
         model.addAttribute("one-task", taskService.selectTaskById(id));
         return "/index";
     }
@@ -36,13 +38,13 @@ public class TaskController {
     }
 
     @GetMapping("/all-tasks/{status}")
-    public String getAllTaskByStatus(@ModelAttribute("selected-tasks") Model model, @PathVariable String status){
+    public String getAllTaskByStatus(@ModelAttribute("selectedTasks") Model model, @PathVariable String status){
         model.addAttribute("selected-tasks", taskService.getAllCompletedTask(status));
         return "/index";
     }
 
     @PutMapping("/update-task/{id}")
-    public String updateTask(@ModelAttribute("update-task") Task task, @PathVariable Long id){
+    public String updateTask(@ModelAttribute("updateTask") Task task, @PathVariable Long id){
         taskService.updateTaskById(task, id);
         return "redirect:/index";
     }
@@ -57,6 +59,11 @@ public class TaskController {
     public String deleteAllTasks(){
         taskService.deleteAllTasks();
         return "redirect:/login";
+    }
+
+    @GetMapping("/task-schedule")
+    public String showAddTasksPage(){
+        return "new-task";
     }
 
 }

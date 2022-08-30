@@ -1,6 +1,7 @@
 package com.chukwuma.timemanagementapp.controller;
 
 
+import com.chukwuma.timemanagementapp.model.Task;
 import com.chukwuma.timemanagementapp.model.User;
 import com.chukwuma.timemanagementapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class UserController {
             System.out.println(user.getEmail() + user.getPassword());
             System.out.println(loginUser);
             session.setAttribute("userSession", loginUser.getFirstName());
-            return "/index";
+            return "redirect:/index";
         }
         return "redirect:/login";
     }
@@ -61,4 +62,10 @@ public class UserController {
         session.invalidate();
         return "redirect:/";
     }
+
+    @GetMapping("/index")
+    public String homePage(@ModelAttribute ("task") Task task){
+        return "index";
+    }
+
 }
