@@ -12,14 +12,12 @@ public interface TaskService {
 
     List<Task> getAllTasks();
 
-    List<Task> getAllCompletedTask();
+    List<Task> getAllCompletedTask(String status);
 
-    List<Task> getAllUncompletedTask();
+    List<Task> getAllUncompletedTask(String status);
 
     Task updateTaskById(Task task, Long id);
 
     String deleteTask(Long id);
-
-
 
 }
