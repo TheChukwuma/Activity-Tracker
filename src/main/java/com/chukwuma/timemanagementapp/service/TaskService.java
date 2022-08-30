@@ -20,4 +20,5 @@ public interface TaskService {
 
     String deleteTask(Long id);
 
+    String deleteAllTasks();
 }
