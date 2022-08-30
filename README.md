@@ -1,12 +1,12 @@
 # TaskManagementApp
 This program is a task management app using Java Springboot.
 
-Technologies used
-Java 18
-Springboot framework
-HTML
-CSS
-JS
+Technologies used:
+Java 18,
+Springboot framework,
+HTML,
+CSS,
+JS,
 MYSQL
 
 Start Date: 08-29-2022
