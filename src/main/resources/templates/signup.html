@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="includes/header">
+    <title>User Registration</title>
+
+</head>
+<body>
+<nav th:replace="includes/navbar :: navbar"></nav>
+
+
+    <div class="container">
+        <!-- success message-->
+
+        <div th:if="${param.success}">
+            <div class="alert alert-info">You've successfully registered</div>
+        </div>
+        <div class="card w-50 mx-auto my-5  border border-primary">
+
+            <div class="card-header text-center bg-primary text-white">Create User Account</div>
+            <div class="card-body">
+                <div class="text-justify" style="font-family: 'Apple SD Gothic Neo'; color: #360336">
+                    <h3>Time Management is Key to greater productivity.</h3>
+                    <h4>Sign up today and increase your productivity.</h4>
+                </div>
+                <br>
+                <form th:action="@{/signup}" method="post" th:object="${register}">
+                    <div class="form-group">
+                        <label class="control-label" for="first-name">First Name</label>
+                        <input type="text" class="form-control border-primary" id = "first-name" th:field="*{firstName}" placeholder="First Name" required autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="last-name">Last Name</label>
+                        <input type="text" class="form-control border-primary" id="last-name" th:field="*{lastName}"  placeholder="Last Name" required autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="email">Email Address</label>
+                        <input type="email" class="form-control border-primary" id="email" th:field="*{email}"  placeholder="Enter your email" required autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="password">Password</label>
+                        <input type="password" class="form-control border-primary" id="password" th:field="*{password}" placeholder="********" required autofocus="autofocus">
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary"> Create Account </button>
+                        <p style="margin-top: 5px">Already registered? <a href="/static" th:href="@{login}">Login here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+<div th:replace="includes/footer"></div>
+</body>
+</html>
