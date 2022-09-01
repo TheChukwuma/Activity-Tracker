@@ -40,6 +40,7 @@ public class UserController {
             System.out.println(user.getEmail() + user.getPassword());
             System.out.println(loginUser);
             session.setAttribute("userSession", loginUser.getFirstName());
+            session.setAttribute("userId",loginUser.getId());
             return "redirect:/index";
         }
         return "redirect:/login";
@@ -63,9 +64,6 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/index")
-    public String homePage(@ModelAttribute ("task") Task task){
-        return "index";
-    }
+
 
 }

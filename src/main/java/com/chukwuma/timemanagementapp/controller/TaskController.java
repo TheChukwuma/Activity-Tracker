@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping
 public class TaskController {
@@ -17,12 +19,23 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/save-task")
-    public String saveTask(Task task){
-        System.out.println(task);
-        taskService.save(task);
-        System.out.println("hello chuks");
+    @GetMapping("/index")
+    public String homePage(Model model, Model model2){
+        model.addAttribute("task", new Task());
+        model2.addAttribute("alltasks",taskService.getAllTasks());
+        return "index";
+    }
+
+    @PostMapping("/save-task")
+    public String saveTask(@ModelAttribute("task") Task task, HttpSession session){
+        Long id = (Long)session.getAttribute("userId");
+        taskService.save(task,id);
         return "redirect:/index";
+    }
+
+    @GetMapping("/home")
+    public String anotherHome(){
+        return "home";
     }
 
     @GetMapping("/select-task/{id}")
@@ -32,7 +45,7 @@ public class TaskController {
     }
 
     @GetMapping("/all-tasks")
-    public String getAllTasks(@ModelAttribute("tasks") Model model){
+    public String getAllTasks(Model model){
         model.addAttribute("tasks",taskService.getAllTasks());
         return "/index";
     }
@@ -43,27 +56,33 @@ public class TaskController {
         return "/index";
     }
 
-    @PutMapping("/update-task/{id}")
-    public String updateTask(@ModelAttribute("updateTask") Task task, @PathVariable Long id){
+    @GetMapping("/update-task/{id}")
+    public String showUpdateTaskPage(@PathVariable Long id, Model model){
+        model.addAttribute("task", taskService.selectTaskById(id));
+        return "edit-task";
+    }
+
+    @PostMapping("/task-update/{id}")
+    public String updateTask(@ModelAttribute("task") Task task, @PathVariable Long id){
         taskService.updateTaskById(task, id);
         return "redirect:/index";
     }
 
-    @DeleteMapping("/delete-task/{id}")
+    @GetMapping("/delete-task/{id}")
     public String deleteTask(@PathVariable Long id){
         taskService.deleteTask(id);
         return ("redirect:/index");
     }
 
-    @DeleteMapping("/delete-all-task")
+    @GetMapping("/delete-all-task")
     public String deleteAllTasks(){
         taskService.deleteAllTasks();
-        return "redirect:/login";
+        return "redirect:/index";
     }
 
     @GetMapping("/task-schedule")
     public String showAddTasksPage(){
-        return "new-task";
+        return "edit-task";
     }
 
 }

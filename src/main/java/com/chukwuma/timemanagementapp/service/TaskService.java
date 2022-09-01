@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TaskService {
 
-    Task save(Task task);
+    Task save(Task task, Long id);
 
     Task selectTaskById(Long id);
 
@@ -21,4 +21,6 @@ public interface TaskService {
     String deleteTask(Long id);
 
     String deleteAllTasks();
+
+    void completeTask(Long id);
 }

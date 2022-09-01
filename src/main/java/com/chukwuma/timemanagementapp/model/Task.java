@@ -6,7 +6,10 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 
 @Getter
@@ -23,13 +26,14 @@ public class Task {
     private String title;
     private String description;
 
-    @Column(columnDefinition = " VARCHAR(255) default 'PENDING'")
-    private Status status;
-    private LocalDateTime createdTime;
-    private LocalDateTime updateTime;
-    private LocalDateTime completedTime;
+    private String status = Status.PENDING.name();
+    private String createdTime;
 
-    public Task(Long task_id, String title, String description, Status status) {
+    private String updateTime;
+    private String completedTime ;
+    private Integer progress = 0;
+
+    public Task(Long task_id, String title, String description, String status) {
         this.task_id = task_id;
         this.title = title;
         this.description = description;
@@ -42,11 +46,12 @@ public class Task {
 
     }
 
-    public Task(String title, String description, Status status, LocalDateTime createdTime) {
+    public Task(String title, String description, Integer progress, String createdTime) {
         this.title = title;
-        this.status = status;
+      
         this.description = description;
         this.createdTime = createdTime;
+        this.progress = progress;
     }
 
     @ManyToOne
