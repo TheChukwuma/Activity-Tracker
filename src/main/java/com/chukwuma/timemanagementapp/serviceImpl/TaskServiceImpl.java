@@ -62,7 +62,12 @@ public class TaskServiceImpl implements TaskService {
         newTask.setDescription(task.getDescription());
         newTask.setCompletedTime("00.00");
         newTask.setUpdateTime(DateAndTime.getDateAndTime());
-        newTask.setStatus(Status.IN_PROGRESS.name());
+        if (task.getProgress() == 0){
+            newTask.setStatus(Status.PENDING.name());
+        }else if (task.getProgress() == 100){
+            newTask.setStatus(Status.COMPLETED.name());
+        }else{
+        newTask.setStatus(Status.IN_PROGRESS.name());}
         newTask.setProgress(task.getProgress());
         return taskRepo.save(newTask);
     }

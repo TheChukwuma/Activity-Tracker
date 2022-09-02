@@ -52,7 +52,7 @@ public class TaskController {
 
     @GetMapping("/all-tasks/{status}")
     public String getAllTaskByStatus(@ModelAttribute("selectedTasks") Model model, @PathVariable String status){
-        model.addAttribute("selected-tasks", taskService.getAllCompletedTask(status));
+        model.addAttribute("selectedtasks", taskService.getAllCompletedTask(status));
         return "/index";
     }
 
