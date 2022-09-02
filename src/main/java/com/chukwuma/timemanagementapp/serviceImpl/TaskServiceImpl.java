@@ -28,8 +28,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task save(Task task, Long id) {
         task.setCreatedTime(DateAndTime.getDateAndTime());
-        task.setCompletedTime("00.00");
-        task.setUpdateTime("00.00");
+        task.setCompletedTime("00-00-00\n00:00:00");
+        task.setUpdateTime("00-00-00\n00:00:00");
         Optional<User> user = userRepository.findById(id);
         task.setUser(user.get());
         return taskRepo.save(task);
@@ -46,7 +46,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getAllCompletedTask(String status) {
+    public List<Task> selectTaskByStatus(String status) {
         return taskRepo.findAllByStatus(status);
     }
 
@@ -60,14 +60,16 @@ public class TaskServiceImpl implements TaskService {
         Task newTask = taskRepo.findById(id).get();
         newTask.setTitle(task.getTitle());
         newTask.setDescription(task.getDescription());
-        newTask.setCompletedTime("00.00");
-        newTask.setUpdateTime(DateAndTime.getDateAndTime());
         if (task.getProgress() == 0){
             newTask.setStatus(Status.PENDING.name());
         }else if (task.getProgress() == 100){
             newTask.setStatus(Status.COMPLETED.name());
+            newTask.setCompletedTime(DateAndTime.getDateAndTime());
         }else{
-        newTask.setStatus(Status.IN_PROGRESS.name());}
+            newTask.setStatus(Status.IN_PROGRESS.name());
+            newTask.setUpdateTime(DateAndTime.getDateAndTime());
+            newTask.setCompletedTime("00-00-00\n00:00:00");
+        }
         newTask.setProgress(task.getProgress());
         return taskRepo.save(newTask);
     }

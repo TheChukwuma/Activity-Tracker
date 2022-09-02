@@ -52,8 +52,8 @@ public class TaskController {
 
     @GetMapping("/all-tasks/{status}")
     public String getAllTaskByStatus(@ModelAttribute("selectedTasks") Model model, @PathVariable String status){
-        model.addAttribute("selectedtasks", taskService.getAllCompletedTask(status));
-        return "/index";
+        model.addAttribute("selectedtasks", taskService.selectTaskByStatus(status));
+        return "/sort-index";
     }
 
     @GetMapping("/update-task/{id}")

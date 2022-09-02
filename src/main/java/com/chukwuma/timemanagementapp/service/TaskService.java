@@ -12,7 +12,7 @@ public interface TaskService {
 
     List<Task> getAllTasks();
 
-    List<Task> getAllCompletedTask(String status);
+    List<Task> selectTaskByStatus(String status);
 
     List<Task> getAllUncompletedTask(String status);
 
