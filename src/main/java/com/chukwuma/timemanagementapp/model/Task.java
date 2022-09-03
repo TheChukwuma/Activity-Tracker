@@ -5,11 +5,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
-
-import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 
 @Getter
@@ -27,6 +23,7 @@ public class Task {
     private String description;
 
     private String status = Status.PENDING.name();
+    private String startedTime;
     private String createdTime;
 
     private String updateTime;
@@ -46,11 +43,11 @@ public class Task {
 
     }
 
-    public Task(String title, String description, Integer progress, String createdTime) {
+    public Task(String title, String description, Integer progress, String startedTime) {
         this.title = title;
       
         this.description = description;
-        this.createdTime = createdTime;
+        this.startedTime = startedTime;
         this.progress = progress;
     }
 

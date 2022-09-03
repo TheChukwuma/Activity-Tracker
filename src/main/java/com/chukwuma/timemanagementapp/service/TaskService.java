@@ -10,7 +10,7 @@ public interface TaskService {
 
     Task selectTaskById(Long id);
 
-    List<Task> getAllTasks();
+    List<Task> getAllTasksByUserId(Long user);
 
     List<Task> selectTaskByStatus(String status);
 
@@ -23,4 +23,8 @@ public interface TaskService {
     String deleteAllTasks();
 
     void completeTask(Long id);
+
+    Task startTask(Long id);
+
+    Task endTask(Long id);
 }

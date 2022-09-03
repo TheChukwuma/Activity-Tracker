@@ -20,9 +20,10 @@ public class TaskController {
     }
 
     @GetMapping("/index")
-    public String homePage(Model model, Model model2){
+    public String homePage(Model model, HttpSession session){
+        Long user = (Long) session.getAttribute("userId");
         model.addAttribute("task", new Task());
-        model2.addAttribute("alltasks",taskService.getAllTasks());
+        model.addAttribute("alltasks",taskService.getAllTasksByUserId(user));
         return "index";
     }
 
@@ -30,6 +31,7 @@ public class TaskController {
     public String saveTask(@ModelAttribute("task") Task task, HttpSession session){
         Long id = (Long)session.getAttribute("userId");
         taskService.save(task,id);
+        System.out.println("1 TASK: " + task);
         return "redirect:/index";
     }
 
@@ -45,16 +47,19 @@ public class TaskController {
     }
 
     @GetMapping("/all-tasks")
-    public String getAllTasks(Model model){
-        model.addAttribute("tasks",taskService.getAllTasks());
+    public String getAllTasks(Model model, @RequestParam String value, HttpSession session){
+        Long user = (Long) session.getAttribute("userId");
+        model.addAttribute("tasks",taskService.getAllTasksByUserId(user));
+        model.addAttribute("selectedtasks", taskService.selectTaskByStatus(value));
+
         return "/index";
     }
 
-    @GetMapping("/all-tasks/{status}")
-    public String getAllTaskByStatus(@ModelAttribute("selectedTasks") Model model, @PathVariable String status){
-        model.addAttribute("selectedtasks", taskService.selectTaskByStatus(status));
-        return "/sort-index";
-    }
+//    @GetMapping("/all-tasks/{status}")
+//    public String getAllTaskByStatus(Model model, @PathVariable String status){
+//        model.addAttribute("selectedtasks", taskService.selectTaskByStatus(status));
+//        return "/sort-index";
+//    }
 
     @GetMapping("/update-task/{id}")
     public String showUpdateTaskPage(@PathVariable Long id, Model model){
@@ -83,6 +88,19 @@ public class TaskController {
     @GetMapping("/task-schedule")
     public String showAddTasksPage(){
         return "edit-task";
+    }
+
+
+    @GetMapping("/start-task/{id}")
+    public String startTask(@PathVariable Long id){
+        taskService.startTask(id);
+        return "redirect:/index";
+    }
+
+    @GetMapping("/end-task/{id}")
+    public String endTask(@PathVariable Long id){
+        taskService.endTask(id);
+        return "redirect:/index";
     }
 
 }

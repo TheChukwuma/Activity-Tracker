@@ -28,10 +28,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task save(Task task, Long id) {
         task.setCreatedTime(DateAndTime.getDateAndTime());
-        task.setCompletedTime("00-00-00\n00:00:00");
-        task.setUpdateTime("00-00-00\n00:00:00");
+        task.setStartedTime("");
+        task.setCompletedTime("");
+        task.setUpdateTime("");
         Optional<User> user = userRepository.findById(id);
         task.setUser(user.get());
+        System.out.println("TASK: " + task);
         return taskRepo.save(task);
     }
 
@@ -41,8 +43,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getAllTasks() {
-        return taskRepo.findAll();
+    public List<Task> getAllTasksByUserId(Long user) {
+        return taskRepo.findAllByUserId(user);
     }
 
     @Override
@@ -68,7 +70,7 @@ public class TaskServiceImpl implements TaskService {
         }else{
             newTask.setStatus(Status.IN_PROGRESS.name());
             newTask.setUpdateTime(DateAndTime.getDateAndTime());
-            newTask.setCompletedTime("00-00-00\n00:00:00");
+            newTask.setCompletedTime("");
         }
         newTask.setProgress(task.getProgress());
         return taskRepo.save(newTask);
@@ -89,6 +91,24 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void completeTask(Long id) {
 
+    }
+
+    @Override
+    public Task startTask(Long id) {
+        Task task = selectTaskById(id);
+        task.setStartedTime(DateAndTime.getDateAndTime());
+        task.setStatus(Status.IN_PROGRESS.name());
+        return taskRepo.save(task);
+    }
+
+    @Override
+    public Task endTask(Long id) {
+        Task task = selectTaskById(id);
+        if(task.getStatus().equals(Status.IN_PROGRESS.name())) {
+            task.setCompletedTime(DateAndTime.getDateAndTime());
+            task.setStatus(Status.COMPLETED.name());
+        }
+        return taskRepo.save(task);
     }
 
 
