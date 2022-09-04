@@ -55,6 +55,8 @@ public class Task {
     @JoinColumn(name="user", referencedColumnName = "id")
     private User user;
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

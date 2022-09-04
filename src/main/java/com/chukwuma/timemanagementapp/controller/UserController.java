@@ -41,6 +41,7 @@ public class UserController {
             System.out.println(loginUser);
             session.setAttribute("userSession", loginUser.getFirstName());
             session.setAttribute("userId",loginUser.getId());
+            session.setAttribute("loginUser", loginUser);
             return "redirect:/index";
         }
         return "redirect:/login";

@@ -14,7 +14,11 @@ public interface TaskService {
 
     List<Task> selectTaskByStatus(String status);
 
-    List<Task> getAllUncompletedTask(String status);
+    List<Task> getAllCompletedTask(Long user);
+
+    List<Task> getAllInProgressTask(Long user);
+
+    List<Task> getAllPendingTask(Long user);
 
     Task updateTaskById(Task task, Long id);
 

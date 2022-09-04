@@ -33,7 +33,6 @@ public class TaskServiceImpl implements TaskService {
         task.setUpdateTime("");
         Optional<User> user = userRepository.findById(id);
         task.setUser(user.get());
-        System.out.println("TASK: " + task);
         return taskRepo.save(task);
     }
 
@@ -53,8 +52,18 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getAllUncompletedTask(String status) {
-        return taskRepo.findAllByStatus(status);
+    public List<Task> getAllCompletedTask(Long user) {
+        return taskRepo.findAllByUserIdWhereStatusIsCompleted(user);
+    }
+
+    @Override
+    public List<Task> getAllInProgressTask(Long user) {
+        return taskRepo.findAllByUserIdWhereStatusIsInProgress( user);
+    }
+
+    @Override
+    public List<Task> getAllPendingTask(Long user) {
+        return taskRepo.findAllByUserIdWhereStatusIsPending(user);
     }
 
     @Override
@@ -105,6 +114,7 @@ public class TaskServiceImpl implements TaskService {
         }
         return taskRepo.save(task);
     }
+
 
 
 }

@@ -2,12 +2,14 @@ package com.chukwuma.timemanagementapp.controller;
 
 
 import com.chukwuma.timemanagementapp.model.Task;
+import com.chukwuma.timemanagementapp.model.User;
 import com.chukwuma.timemanagementapp.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping
@@ -25,6 +27,17 @@ public class TaskController {
         model.addAttribute("task", new Task());
         model.addAttribute("alltasks",taskService.getAllTasksByUserId(user));
         return "index";
+    }
+
+    @GetMapping("/profile")
+    public String showProfilePage(Model model, HttpSession session){
+        Long userid = (Long) session.getAttribute("userId");
+        model.addAttribute("user", (User) session.getAttribute("loginUser"));
+        model.addAttribute("tasks", taskService.getAllTasksByUserId(userid));
+        model.addAttribute("completedTasks", taskService.getAllCompletedTask(userid));
+        model.addAttribute("inProgressTask", taskService.getAllInProgressTask(userid));
+        model.addAttribute("pendingTasks", taskService.getAllPendingTask(userid));
+        return "profile";
     }
 
     @PostMapping("/save-task")
@@ -51,7 +64,7 @@ public class TaskController {
         Long user = (Long) session.getAttribute("userId");
         model.addAttribute("tasks",taskService.getAllTasksByUserId(user));
         model.addAttribute("selectedtasks", taskService.selectTaskByStatus(value));
-
+        session.setAttribute("profile-tasks", taskService.getAllTasksByUserId(user));
         return "/index";
     }
 
