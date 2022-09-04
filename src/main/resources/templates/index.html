@@ -14,7 +14,7 @@
 <nav th:replace="includes/navbar :: navbar"></nav>
 
 <a th:href="@{/home}">Home</a>
-<div class="container-fluid m-5 p-2 rounded-5 mx-auto bg-light shadow" style="width: 96%" >
+<div class="container-fluid m-5 p-2 rounded-5 mx-auto bg-light shadow" style="width: 98%" >
     <!-- App title section -->
     <div class="row m-1 p-4">
         <div class="col">
@@ -92,14 +92,14 @@
                     <th scope="col" style="width: 10%">Title</th>
                     <th scope="col" style="width: 20%">Description</th>
                     <th scope="col" style="width: 10%">Created</th>
-                    <th scope="col" style="width: 10%">Start</th>
+                    <th scope="col" style="width: 10%">Started</th>
                     <th scope="col" style="width: 10%">Updated</th>
                     <th scope="col" style="width: 10%">Completed</th>
                     <th scope="col" style="width: 10%">Status</th>
-                    <th scope="col" style="width: 5%">Start</th>
-                    <th scope="col" style="width: 5%">End</th>
-                    <th scope="col" style="width: 5%">Update</th>
-                    <th scope="col" style="width: 5%">Delete</th>
+                    <th scope="col" style="width: 5%"></th>
+                    <th scope="col" style="width: 5%"></th>
+                    <th scope="col" style="width: 5%"></th>
+                    <th scope="col" style="width: 5%"></th>
                 </tr>
                 </thead>
                 <tbody  th:each = "eachtask: ${alltasks}">
@@ -114,22 +114,29 @@
                     </td>
                     <td style="width: 5%">
                         <div class="col-auto px-0 mx-3 mr-2">
-                            <a class="btn btn-primary"  th:href="@{start-task/{id}(id=${eachtask.getTask_id()})}">Start</a>
+<!--                            <a class="btn btn-primary"  th:href="@{start-task/{id}(id=${eachtask.getTask_id()})}">Start</a>-->
+                            <a th:href="@{start-task/{id}(id=${eachtask.getTask_id()})}" class="btn btn-primary"><span class="bi bi-play-btn"></span></a>
+
                         </div>
                     </td >
                     <td style="width: 5%">
                         <div class="col-auto px-0 mx-3 mr-2">
-                            <a class="btn btn-dark"  th:href="@{end-task/{id}(id=${eachtask.getTask_id()})}">End</a>
+<!--                            <a class="btn btn-dark"  th:href="@{end-task/{id}(id=${eachtask.getTask_id()})}">End</a>-->
+                            <a th:href="@{end-task/{id}(id=${eachtask.getTask_id()})}" class="btn btn-dark"><span class="bi bi-stop-btn"></span></a>
+
                         </div>
                     </td >
                     <td style="width: 5%">
                         <div class="col-auto px-0 mx-3 mr-2">
-                            <a class="btn btn-info"  th:href="@{update-task/{id}(id=${eachtask.getTask_id()})}">Update</a>
+<!--                            <a class="btn btn-info"  th:href="@{update-task/{id}(id=${eachtask.getTask_id()})}">Update</a>-->
+                            <a th:href="@{update-task/{id}(id=${eachtask.getTask_id()})}" class="btn btn-info">Edit <span class="bi bi-pencil-square"></span></a>
+
                         </div>
                     </td >
                     <td style="width: 5%">
                         <div class="col-auto px-0 mx-0 mr-2">
-                           <a class="btn btn-danger" th:href="@{delete-task/{id}(id=${eachtask.getTask_id()})}">Del</a>
+<!--                           <a class="btn btn-danger" th:href="@{delete-task/{id}(id=${eachtask.getTask_id()})}">Del</a>-->
+                            <a th:href="@{delete-task/{id}(id=${eachtask.getTask_id()})}" class="btn btn-danger"><span class="bi bi-trash"></span></a>
                         </div>
                     </td>
                 </tr>
@@ -139,7 +146,8 @@
             <div class="">
                 <label class="label"><h5>Delete all Tasks</h5></label>
                 <div class="col-auto px-0 mx-0 mr-2">
-                    <a class="btn btn-danger" th:href="@{/delete-all-task}">Delete All Tasks</a>
+<!--                    <a class="btn btn-danger" th:href="@{/delete-all-task}">Delete All Tasks</a>-->
+                    <a  class="btn btn-danger" th:href="@{/delete-all-task}">Delete all <span class="bi bi-trash"></span></a>
                 </div>
             </div>
         </div>
